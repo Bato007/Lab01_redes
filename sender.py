@@ -1,5 +1,6 @@
 from bitarray import bitarray
 import random
+from Fletcher import Checksum
 
 class Application:
     def __init__(self):
@@ -58,3 +59,6 @@ noise = Noise(bitarray)
 noise.addNoise()
 
 finalMessage = noise.returnNoise()
+
+cheksum = Checksum(finalMessage)
+blocks = cheksum.encode()
