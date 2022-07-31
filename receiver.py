@@ -27,11 +27,16 @@ correction = doubleParity.checkError()
 
 if (correction == 0):
   print('No hubo ningun error')
+
+try:
   original_message = doubleParity.get_message()
   original_message = ''.join(str(item) for innerlist in original_message for item in innerlist)
   print('Mensaje en bits:', original_message)
   received_message = Verification(original_message).toString()
   print('Mensaje recibido:', received_message)
+except:
+  ''
+
 print('----------------------')
 
 print('----------------------\n\nHamming\n')
@@ -41,10 +46,15 @@ correction = Hamming().checkError(message_hamming)
 
 if (correction == 0):
   print('No hubo ningun error')
+else:
+  print('El error se encuentra en la posicion: ', len(message_hamming)-correction+1)
+
+try:
   original_message = Hamming().get_original(message_hamming)
   print('Mensaje en bits:', original_message)
   received_message = Verification(original_message).toString()
   print('Mensaje recibido:', received_message)
-else:
-  print('El error se encuentra en la posicion: ', len(message_hamming)-correction+1)
+except:
+  ''
+
 print('----------------------')
