@@ -34,14 +34,12 @@ class Noise:
             try:
                 float(self.probability)
                 if rand < float(self.probability):
-                    print('ERROR INSERTED')
                     entered += 1
                     self.bitarray[i] = (self.bitarray[i] + 1) % 2
             except:
                 a, b = self.probability.split('/')
                 if rand < int(a) / int(b):
                     entered += 1
-                    print('ERROR INSERTED')
                     self.bitarray[i] = (self.bitarray[i] + 1) % 2
         return entered
 
@@ -63,16 +61,18 @@ message = application.get_message()
 verification = Verification(message)
 ver_bitarray = verification.toBitArray()
 
+print('\nCorreccion de errores: Paridad doble')
 doubleParity = Parity(list(ver_bitarray))
 doubleParity.createFirstMatrix()
 
 noiseDoubleParity = Noise(doubleParity.matrixToBitarray())
 noiseDoubleParity.addNoise()
-finalMessageParity = noiseDoubleParity.returnNoise()
+finalMessageParity = list(noiseDoubleParity.returnNoise())
 
-print('\nCorreccion de errores: Paridad doble')
-secondMatrix = doubleParity.createSecondMatrix(list(finalMessageParity))
-doubleParity.checkError()
+finalMessageParity = list(noiseDoubleParity.returnNoise())
+message_doubleParity = ''.join(str(item) for item in list(finalMessageParity))
+transmition_doubleParity = Transmission(message_doubleParity)
+transmition_doubleParity.send_message('doubleParity.txt')
 print('\n')
 
 print('\nCorreccion de errores: Algoritmo de Hamming')

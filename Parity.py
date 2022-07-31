@@ -37,14 +37,17 @@ class Parity:
 
         print(*secondMatrix, sep='\n')
         self.secondMatrix = secondMatrix
+        return secondMatrix
         
     # Se verifica si hay error en las paridades recibidas
     def checkError(self):
+        countErrors = 0
         for row in self.secondMatrix:
             parityToTest = row.pop()
             possibleParity = sum(row) % 2
             if (possibleParity != parityToTest):
                 print('Error de paridad en la fila', row)
+                countErrors += 1
         
         lastRow = self.secondMatrix.pop()
         possibleParity = [ (sum(x) % 2) for x in zip(*self.secondMatrix) ]
@@ -52,4 +55,10 @@ class Parity:
         for i in range(len(lastRow)):
             if (possibleParity[i] != lastRow[i]):
                 print('Error de paridad en la columna', i)
+                countErrors += 1
+        return countErrors
+    
+    def get_message(self):
+        return self.secondMatrix
+        
 
