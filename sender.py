@@ -1,6 +1,7 @@
 from bitarray import bitarray
 import random
 from Fletcher import Checksum
+from Parity import *
 
 class Application:
     def __init__(self):
@@ -55,10 +56,19 @@ message = application.get_message()
 verification = Verification(message)
 bitarray = verification.toBitArray()
 
-noise = Noise(bitarray)
-noise.addNoise()
+doubleParity = Parity(list(bitarray))
+doubleParity.createFirstMatrix()
 
-finalMessage = noise.returnNoise()
+noiseDoubleParity = Noise(doubleParity.matrixToBitarray())
+noiseDoubleParity.addNoise()
+finalMessageParity = noiseDoubleParity.returnNoise()
 
-cheksum = Checksum(finalMessage)
+print('\nCorreccion de errores: Paridad doble')
+secondMatrix = doubleParity.createSecondMatrix(list(finalMessageParity))
+doubleParity.checkError()
+print('\n')
+
+print('\nDeteccion de errores: Fletcher checksum')
+cheksum = Checksum(finalMessageParity)
 blocks = cheksum.encode()
+print('\n')
