@@ -27,8 +27,14 @@ class Noise:
         for i in self.bitarray:
             rand = random.uniform(0, 1)
 
-            if rand < float(self.probability):
-                self.bitarray[i] = (self.bitarray[i] + 1) % 2
+            try:
+                float(self.probability)
+                if rand < float(self.probability):
+                    self.bitarray[i] = (self.bitarray[i] + 1) % 2
+            except:
+                a, b = self.probability.split('/')
+                if rand < int(a) / int(b):
+                    self.bitarray[i] = (self.bitarray[i] + 1) % 2
     
     def returnNoise(self):
         return self.bitarray
