@@ -96,6 +96,21 @@ print('El mensaje enviado fue el siguiente:', message_hamming)
 print('\n')
 
 print('\nDeteccion de errores: Fletcher checksum')
-cheksum = Checksum(finalMessageParity)
+# Creating Fletcher Checksum message
+cheksum = Checksum(ver_bitarray)
 blocks = cheksum.encode()
+
+    # Generating error
+noise_checksum = Noise(bitarray(blocks))
+noise_checksum.addNoise()
+temp_message_checksum = noise_checksum.returnNoise()
+
+    # Makes string to send
+message_checksum = ''.join(str(n) for n in list(temp_message_checksum))
+transmition_checksum = Transmission(message_checksum)
+transmition_checksum.send_message('checksum.txt')
+
+print('Mensaje original:', ''.join(str(n) for n in bitarray(ver_bitarray)))
+print('Fletcher Checksum genero los siguientes bits:', blocks)
+print('El mensaje enviado fue el siguiente:', message_checksum)
 print('\n')

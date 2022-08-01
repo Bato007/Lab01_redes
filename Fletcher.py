@@ -25,4 +25,10 @@ class Checksum:
         c2 = c2 % 256
         self.blocks.append(c1)
         self.blocks.append(c2)
-        return(self.blocks)
+        return self.writeOutput()
+    
+    def writeOutput(self):
+        encoded = ''
+        for block in self.blocks:
+            encoded += str(format(block,'08b'))
+        return encoded
