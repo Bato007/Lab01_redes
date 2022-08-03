@@ -37,20 +37,23 @@ class Checksum:
         return encoded
 
     def checkError(self, arr):
-        messageBlocks = []
-        # Separate in blocks, and convert them to numbers from binary
-        for i in range(0, int(len(arr) / 8)):
-            singleBlock = ''
-            for j in range(0, 8):
-                singleBlock += str(arr[i*8 + j])
-            messageBlocks.append(int(singleBlock, 2))
-        sum = 0
-        for i in messageBlocks:
-            sum += i
-        sum = sum % 256
-        if sum == 255:
+        self.message = arr
+        self.blockCount = int(len(arr) / 8) - 2
+        self.blocks = self.defineBlocks()
+        self.blocks = self.defineBlocks()
+        check1 = arr[-16:-8]
+        check1 = int(check1, 2)
+        check2 = arr[-8:]
+        check2 = int(check2, 2)
+        c1, c2 = 0, 0
+        for block in self.blocks:
+            c1 += block
+            c2 += c1
+        c1 = c1 % 256
+        c2 = c2 % 256
+        if check1 == c1 or check2 == c2:
             return 0
-        else: 
+        else:
             return 1
 
     def get_original(self, bits):

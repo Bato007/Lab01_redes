@@ -26,21 +26,36 @@ class Noise:
         self.bitarray = bitarray
         self.probability = input('Ingrese la probabilidad de error: ')
     
-    def addNoise(self):
+    def addNoise(self, stop=None):
         entered = 0
-        for i in self.bitarray:
-            rand = random.uniform(0, 1)
+        if stop:
+            for i in range(len(self.bitarray) - 16):
+                rand = random.uniform(0, 1)
 
-            try:
-                float(self.probability)
-                if rand < float(self.probability):
-                    entered += 1
-                    self.bitarray[i] = (self.bitarray[i] + 1) % 2
-            except:
-                a, b = self.probability.split('/')
-                if rand < int(a) / int(b):
-                    entered += 1
-                    self.bitarray[i] = (self.bitarray[i] + 1) % 2
+                try:
+                    float(self.probability)
+                    if rand < float(self.probability):
+                        entered += 1
+                        self.bitarray[i] = (self.bitarray[i] + 1) % 2
+                except:
+                    a, b = self.probability.split('/')
+                    if rand < int(a) / int(b):
+                        entered += 1
+                        self.bitarray[i] = (self.bitarray[i] + 1) % 2
+        else:
+            for i in self.bitarray:
+                rand = random.uniform(0, 1)
+
+                try:
+                    float(self.probability)
+                    if rand < float(self.probability):
+                        entered += 1
+                        self.bitarray[i] = (self.bitarray[i] + 1) % 2
+                except:
+                    a, b = self.probability.split('/')
+                    if rand < int(a) / int(b):
+                        entered += 1
+                        self.bitarray[i] = (self.bitarray[i] + 1) % 2
         return entered
 
     def returnNoise(self):
@@ -102,7 +117,7 @@ blocks = cheksum.encode()
 
     # Generating error
 noise_checksum = Noise(bitarray(blocks))
-noise_checksum.addNoise()
+noise_checksum.addNoise(stop=True)
 temp_message_checksum = noise_checksum.returnNoise()
 
     # Makes string to send

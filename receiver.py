@@ -70,12 +70,12 @@ if (correction == 0):
 else:
   print('El error se encuentra en la posicion: ', len(message_checksum)-correction+1)
 
-# try:
-original_message = Checksum().get_original(message_checksum)
-print('Mensaje en bits:', original_message)
-received_message = Verification(original_message).toString()
-print('Mensaje recibido:', received_message)
-# except:
-#   ''
+try:
+  original_message = Checksum().get_original(message_checksum)
+  print('Mensaje en bits:', original_message)
+  received_message = Verification(original_message).toString()
+  print('Mensaje recibido:', received_message)
+except:
+  ''
 
 print('----------------------')
