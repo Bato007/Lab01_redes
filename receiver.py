@@ -68,7 +68,7 @@ correction = Checksum().checkError(message_checksum)
 if (correction == 0):
   print('No hubo ningun error')
 else:
-  print('El error se encuentra en la posicion: ', len(message_checksum)-correction+1)
+  print('Error detectado')
 
 try:
   original_message = Checksum().get_original(message_checksum)
