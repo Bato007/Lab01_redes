@@ -1,5 +1,6 @@
 from Hamming import Hamming
 from Parity import *
+from Fletcher import Checksum
 from bitarray import bitarray
 
 class Transmission:
@@ -56,5 +57,25 @@ try:
   print('Mensaje recibido:', received_message)
 except:
   ''
+
+print('----------------------')
+
+print('----------------------\nFletcher\n')
+# Checks the message from sender
+message_checksum = Transmission('checksum.txt').get_message()
+correction = Checksum().checkError(message_checksum)
+
+if (correction == 0):
+  print('No hubo ningun error')
+else:
+  print('El error se encuentra en la posicion: ', len(message_checksum)-correction+1)
+
+# try:
+original_message = Checksum().get_original(message_checksum)
+print('Mensaje en bits:', original_message)
+received_message = Verification(original_message).toString()
+print('Mensaje recibido:', received_message)
+# except:
+#   ''
 
 print('----------------------')
